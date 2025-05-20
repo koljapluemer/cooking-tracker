@@ -1,0 +1,12 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Home - Cooking Tracker{% endblock %}
+
+{% block content %}
+<h1>Welcome to Cooking Tracker</h1>
+{% if not user.guestprofile.nickname %}
+<p>Please <a href="{% url 'recipes:set_nickname' %}">set your nickname</a> to get started.</p>
+{% else %}
+<p>Welcome, {{ user.guestprofile.nickname }}!</p>
+{% endif %}
+{% endblock %} 

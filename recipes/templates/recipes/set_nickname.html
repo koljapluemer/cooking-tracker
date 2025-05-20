@@ -1,0 +1,14 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Set Nickname - Cooking Tracker{% endblock %}
+
+{% block content %}
+<h1>Set Your Nickname</h1>
+<p>Please choose a nickname to identify yourself.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="nickname" placeholder="Enter nickname" maxlength="50" required>
+    <button type="submit">Save Nickname</button>
+</form>
+{% endblock %} 

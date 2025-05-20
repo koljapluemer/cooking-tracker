@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)k+wss9fn4tji=yt-+o_jxezzv+1$7qc+5xted+7r%ptrc=x(t'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-)k+wss9fn4tji=yt-+o_jxezzv+1$7qc+5xted+7r%ptrc=x(t')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'guest_user',
+    'recipes',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'recipes.middleware.RecipeAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -120,3 +128,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guest_user.backends.GuestBackend',
+]
+
+# Guest user settings
+GUEST_USER_EXPIRY_DAYS = None  # Never expire guest users
+
+# Shared password for recipe access
+RECIPE_ACCESS_PASSWORD = os.getenv('RECIPE_ACCESS_PASSWORD', 'your-secure-password-here')
+
+# Cookie settings for password check
+RECIPE_ACCESS_COOKIE_NAME = 'recipe_access_granted'
+RECIPE_ACCESS_COOKIE_AGE = 60 * 60 * 24 * 365  # 1 year in seconds

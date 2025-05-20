@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Cooking Tracker{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .messages {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .messages .error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .messages .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .messages .warning {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        form {
+            margin: 20px 0;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% block content %}
+    {% endblock %}
+</body>
+</html> 
